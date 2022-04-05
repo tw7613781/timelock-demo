@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { message, Layout } from 'antd';
 import './App.css';
 import { getConn } from './conn';
-import Token from './token';
+import Contracts from './contracts';
 
 const { Footer, Content } = Layout;
 
@@ -28,7 +28,7 @@ function App() {
         <>
             <Layout>
                 <Content>
-                    <Token conn={conn}></Token>
+                    <Contracts conn={conn}></Contracts>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>Timelock Demo ©2022</Footer>
             </Layout>
