@@ -1,6 +1,6 @@
 require("@nomiclabs/hardhat-waffle")
 require("@nomiclabs/hardhat-etherscan")
-require("hardhat-deploy")
+// require("hardhat-deploy")
 require("dotenv").config()
 
 const MAINNET_RPC_URL =
@@ -12,6 +12,8 @@ const RINKEBY_RPC_URL =
 const KOVAN_RPC_URL = process.env.KOVAN_RPC_URL || "https://eth-kovan.alchemyapi.io/v2/your-api-key"
 const POLYGON_MAINNET_RPC_URL =
   process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key"
+const POLYGON_TESTNET_RPC_URL =
+  process.env.POLYGON_TESTNET_RPC_URL
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 // optional
 const MNEMONIC = process.env.MNEMONIC || "Your mnemonic"
@@ -23,7 +25,7 @@ const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY || "Your polygonscan
 const REPORT_GAS = process.env.REPORT_GAS || false
 
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "localhost",
   networks: {
     hardhat: {
       // If you want to do some forking set `enabled` to true
@@ -70,6 +72,12 @@ module.exports = {
       saveDeployments: true,
       chainId: 137,
     },
+    polygon_test: {
+      url: POLYGON_TESTNET_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      saveDeployments: true,
+      chainId: 80001,
+    },
   },
   etherscan: {
     // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
@@ -77,6 +85,7 @@ module.exports = {
       rinkeby: ETHERSCAN_API_KEY,
       kovan: ETHERSCAN_API_KEY,
       polygon: POLYGONSCAN_API_KEY,
+      polygonMumbai: POLYGONSCAN_API_KEY
     },
   },
   namedAccounts: {
@@ -91,14 +100,8 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.7",
-      },
-      {
-        version: "0.6.6",
-      },
-      {
-        version: "0.4.24",
-      },
+        version: "0.8.4",
+      }
     ],
   },
   mocha: {
