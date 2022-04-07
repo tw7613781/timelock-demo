@@ -6,14 +6,15 @@
 const hre = require("hardhat");
 
 async function main() {
-  // Hardhat always runs the compile task when running scripts with its command
-  // line interface.
-  //
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
+    // Hardhat always runs the compile task when running scripts with its command
+    // line interface.
+    //
+    // If this script is run directly using `node` you may want to call compile
+    // manually to make sure everything is compiled
+    // await hre.run('compile');
 
-  // We get the contract to deploy
+    // We get the contract to deploy
+
     const TestToken = await hre.ethers.getContractFactory("TestToken");
     const testToken = await TestToken.deploy();
     await testToken.deployed();
@@ -23,9 +24,11 @@ async function main() {
     const Timelock = await hre.ethers.getContractFactory("Timelock");
     const address = "0x945e9704D2735b420363071bB935ACf2B9C4b814";
     const timelock = await Timelock.deploy([address], [address]);
+    await timelock.deployed();
     console.log("timelock deployed to:", timelock.address);
     console.log("transfer ownership of testToken to timelock")
-    await testToken.transferOwnership(timelock.address);
+    const tx = await testToken.transferOwnership(timelock.address);
+    await tx.wait(2);
     console.log("testToken admin:", await testToken.owner());
 
     // polygon_test
